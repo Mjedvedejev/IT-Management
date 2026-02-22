@@ -12,7 +12,8 @@ LagerSync
 |-|-|-|
 |1.|Rough draft|2.22.2026 8:57 AM|
 |2.|Ready for review|2.22.2026 10:40 AM|
-|3.|Finished|2.22.2026 4:30 PM|
+|3.|Reviewed|2.22.2026 4:30 PM|
+|4.|Minor fixes|2.22.2026 5:25 PM|
 
 ## Pomen projekta za organizacijo in njeno okolje
 Olajšano delo voznikov kamionov, hitrejši odvoz lesa, uskladitev in povezovanje lastnikov gozdov.
@@ -33,7 +34,7 @@ V situaciji da se kombinira prevoz hlodov privatnika in države, SIDG izbira kje
 * Opis končnega produkta, storitve ali rezultata:
 Spletna aplikacija za sinhronizacijo lastnikov gozdov in odvoz hlodov, ter nadaljno podporo projekta
 * Poročanje in končno poročilo:
-Na koncu dobi GZ Kočevje finančno poročilo in SIDG dobi dostop do spletne aplikacije, ter nadaljno podoporo projekta, dostop dobijo tudi do orodja za prijavo napak, kjer sodelujejo direktno z razvijalci.
+Na koncu dobi ZGS Kočevje finančno poročilo in SIDG dobi dostop do spletne aplikacije, ter nadaljno podoporo projekta, dostop dobijo tudi do orodja za prijavo napak, kjer sodelujejo direktno z razvijalci.
 
 ## Omejitve projekta
 * Grob urnik
@@ -64,9 +65,9 @@ Visual studio profesional 500 * 3 -> 1500)
 >- 23.Decembra 2026 končna izdaja projekta
 
 ## Projektni menedžer in ekipa, vloge in zaposlitev
-Tilen Tratnik (89221123) - Razvijalec
-Vid Brložnik (89221178) - Stik z javnostjo (PR)
-Florijan Perič (89231252) - Razvijalec
+* Tilen Tratnik (89221123) - Razvijalec
+* Vid Brložnik (89221178) - Stik z javnostjo (PR)
+* Florijan Perič (89231252) - Razvijalec
 
 ## Ocena tveganj
 >- Časovne omejitve (8)
