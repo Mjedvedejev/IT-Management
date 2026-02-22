@@ -12,6 +12,7 @@ LagerSync
 |-|-|-|
 |1.|Rough draft|2.22.2026 8:57 AM|
 |2.|Ready for review|2.22.2026 10:40 AM|
+|3.|Finished|2.22.2026 4:30 PM|
 
 ## Pomen projekta za organizacijo in njeno okolje
 Olajšano delo voznikov kamionov, hitrejši odvoz lesa, uskladitev in povezovanje lastnikov gozdov.
@@ -63,9 +64,9 @@ Visual studio profesional 500 * 3 -> 1500)
 >- 23.Decembra 2026 končna izdaja projekta
 
 ## Projektni menedžer in ekipa, vloge in zaposlitev
-Tilen Tratnik - Razvijalec
-Vid Brložnik - Stik z javnostjo (PR)
-Florijan Perič - Razvijalec
+Tilen Tratnik (89221123) - Razvijalec
+Vid Brložnik (89221178) - Stik z javnostjo (PR)
+Florijan Perič (89231252) - Razvijalec
 
 ## Ocena tveganj
 >- Časovne omejitve (8)
