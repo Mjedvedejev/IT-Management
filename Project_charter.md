@@ -11,6 +11,7 @@ LagerSync
 |Version|Description|Date and time|
 |-|-|-|
 |1.|Added english version|2.22.2026 5:22 PM|
+|2.|Fixed translation|2.22.2026 5:26 PM|
 
 
 ## The importance of the project for the organization and its environment
@@ -65,7 +66,7 @@ Visual studio profesional 500 * 3 -> 1500)
 
 ## Project manager and team, roles and employment
 * Tilen Tratnik (89221123) - Developer
-* Vid Brložnik (89221178) - Stik z javnostjo (PR)
+* Vid Brložnik (89221178) - (PR)
 * Florijan Perič (89231252) - Developer
 
 ## Risk assessment
