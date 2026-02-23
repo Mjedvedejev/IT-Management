@@ -67,7 +67,7 @@ Visual studio profesional 500 * 3 -> 1500)
 ## Project manager and team, roles and employment
 * Tilen Tratnik (89221123) - Developer
 * Vid Brložnik (89221178) - (PR)
-* Florijan Perič (89231252) - Developer
+* Florijan Peric (89231252) - Developer
 
 ## Risk assessment
 >- Time limitations (8)

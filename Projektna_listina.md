@@ -67,7 +67,7 @@ Visual studio profesional 500 * 3 -> 1500)
 ## Projektni menedžer in ekipa, vloge in zaposlitev
 * Tilen Tratnik (89221123) - Razvijalec
 * Vid Brložnik (89221178) - Stik z javnostjo (PR)
-* Florijan Perič (89231252) - Razvijalec
+* Florijan Peric (89231252) - Razvijalec
 
 ## Ocena tveganj
 >- Časovne omejitve (8)
