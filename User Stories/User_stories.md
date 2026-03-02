@@ -10,13 +10,13 @@ As a truck driver I want to have a way for customers to see my loaction, so that
 
 **Marjan Mehkohlačnik**
 
-As a private forest owner I want to have all my documentation and receipts in one place, so that I do not have to waste time, organizing it myself.
-
 As a private forest owner I want to specify when the logs can be picked up, since if it has rained, I do not want big trucks ruining the skid trail or the forest road.
 
 As a private forest owner I want a way to see the price the truck driver is offering to buy off my logs, since I do not lowballing.
 
 As a private forest owner I want a way to cancle a truck pickup if I see that the truck driver is offering a too low price, I know what I got.
+
+As a private forest owner I want to be notified when the truck will arive so that I can be present and make sure I am not getting ripped off.
 
 **Zlatko Grm**
 
