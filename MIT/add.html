@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Logs</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+<h1>LagerSync</h1>
+<nav>
+<a href="index.html">Dashboard</a>
+<a href="add.html">Add Logs</a>
+<a href="accept.html">Accept Transport</a>
+</nav>
+</header>
+
+<div class="container">
+
+<h2>Add Logs for Transport</h2>
+
+<form onsubmit="addLogs(event)">
+
+<label>Owner Type</label>
+<select id="ownerType">
+<option value="Private">Private Forest Owner</option>
+<option value="SIDG">SIDG</option>
+</select>
+
+<label>Location</label>
+<input id="location" placeholder="Forest location / GPS" required>
+
+<label>Volume (m³)</label>
+<input id="volume" type="number" required>
+
+<label>Pickup Date</label>
+<input id="date" type="date" required>
+
+<button type="submit">Submit Logs</button>
+
+</form>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
