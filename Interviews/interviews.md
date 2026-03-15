@@ -18,6 +18,11 @@
 
 **3.** Yes, although, I dont really like the part where the private forest plot owners can monitor my location and pricing.
 
+### Conclusion
+
+There is a demand for organised log transport, also what should be kept in mind is that some people do not want to share their location and pricing.
+
+
 ## Interview number 2
 
 **Person interviewed** Robert Šen, a 23 year old college dropout with about 10 ha of forest plots.
@@ -30,6 +35,11 @@
 
 **3.** Yes, that would save me a lot of time and money, also it would be a lot more legal.
 
+### Conclusion
+
+There is a demand for organised log transport.
+
+
 ## Interview number 3
 
 **Person interviewed** Jan, a 67 year old largescale forest plot owner, owning about 84 ha.
@@ -41,3 +51,7 @@
 **2.** Yes, I used to have a guy for this, but now he is retired.
 
 **3.** Yes, although I like talking to people, since you usually get a better deal if you know them.
+
+### Conclusion
+
+There is a demand for organised log transport. Some people also want the option to communicate with the drivers.
