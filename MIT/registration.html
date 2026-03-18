@@ -1,52 +1,56 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Registration</title>
-<link rel="stylesheet" href="style.css">
-<script src="script.js" defer></script>
+  <meta charset="UTF-8">
+  <title>Registration</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
+
 <body>
 
-<header>
-<h1>LagerSync</h1>
-<nav>
-<a href="index.html">Dashboard</a>
-<a href="add.html">Add Logs</a>
-<a href="accept.html">Accept Transport</a>
-</nav>
-<div class="user-menu">
-  <img src="graphics/user_icon.png" alt="User Icon" class="user-icon">
+  <header>
+    <h1>LagerSync</h1>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="add.html">Add Logs</a>
+      <a href="accept.html">Accept Transport</a>
+    </nav>
+    <div class="user-menu">
+      <img src="graphics/user_icon.png" alt="User Icon" class="user-icon">
 
-  <div class="dropdown">
-    <a href="registration.html">Register</a>
-    <a href="login.html">Login</a>
-  </div>
-</div>
+      <div class="dropdown">
+        <a href="registration.html">Register</a>
+        <a href="login.html">Login</a>
+      </div>
+    </div>
 
-</header>
-<background-image="graphics/background.jpg" background-size: cover; background-position: center; height: 100vh;>
-<br><br>
+  </header>
+  <background-image="graphics /background.jpg" background-size: cover; background-position: center; height: 100vh;>
+    <br><br>
 
-<div class="bot_container">
+    <div class="bot_container">
 
-<h2>Please Register</h2>
+      <h2>Please Register</h2>
 
-<div class="card">
-<h3>New User Registration</h3>
-<input type="text" name="username" placeholder="Enter username" required><br><br>
-<input type="password" name="password" placeholder="Enter password" required><br><br>
-<button class="button" onclick="register()">Register</button><br><br>
-<h3>Please select your roles</h3>
-<label><input type="checkbox" name="role" value="log_owner"> Log Owner<br></label>
-<label><input type="checkbox" name="role" value="transport_provider"> Transport Provider<br></label>
+      <div class="card">
+        <h3>New User Registration</h3>
+        <input type="text" name="username" placeholder="Enter username" required><br><br>
+        <input type="password" name="password" placeholder="Enter password" required><br><br>
+        <button class="button" onclick="register()">Register</button><br><br>
+        <h3>Please select your roles</h3>
+        <label><input type="checkbox" name="role" value="log_owner"> Log Owner<br></label>
+        <label><input type="checkbox" name="role" value="transport_provider"> Transport Provider<br></label>
+        <label>
+          <h3>Already Registered?</h3>
+        </label>
+        <button style="margin-left: 40%; width: 20%;" class="button"
+          onclick="window.location.href='login.html'">Login</button>
 
-</div>
+      </div>
 
-
-<h2>Already Registered?</h2>
-<button class="button" onclick="window.location.href='login.html'">Login</button>
 
 </body>
+
 </html>
