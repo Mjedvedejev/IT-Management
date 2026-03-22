@@ -1,5 +1,12 @@
 function acceptTransport(){
 
+const user = JSON.parse(localStorage.getItem("loggedInUser"));
+if (!user) {
+alert("Please log in to add logs!");
+return;
+}
+
+
 const check=document.getElementById("acceptCheck");
 const msg=document.getElementById("acceptMsg");
 
@@ -19,12 +26,19 @@ function addLogs(event) {
 
 event.preventDefault();
 
+const user = JSON.parse(localStorage.getItem("loggedInUser"));
+if (!user) {
+alert("Please log in to add logs!");
+return;
+}
+
 const owner = document.getElementById("ownerType").value;
 const location = document.getElementById("location").value;
 const volume = document.getElementById("volume").value;
 const date = document.getElementById("date").value;
 
 const newLog = {
+user: user.username,
 owner: owner,
 location: location,
 volume: volume,
@@ -42,33 +56,41 @@ alert("Logs added successfully!");
 document.getElementById("logForm").reset();
 }
 
-function displayLogs() {
+function displayLogs(locationFilter = "", dateFilter = "", sizeFilter = "") {
 
-const container = document.getElementById("logsContainer");
+  const container = document.getElementById("logsContainer");
+  if (!container) return;
 
-if(!container) return;
+  const logs = JSON.parse(localStorage.getItem("logs")) || [];
 
-const logs = JSON.parse(localStorage.getItem("logs")) || [];
+  container.innerHTML = "";
 
-container.innerHTML = "";
+  logs
+    .filter(log => {
+      const matchesLocation = log.location
+        .toLowerCase()
+        .includes(locationFilter.toLowerCase());
 
-logs.forEach(log => {
+      const matchesDate = !dateFilter || log.date === dateFilter;
+      const matchesSize = !sizeFilter || log.volume <= parseFloat(sizeFilter);
 
-const card = document.createElement("div");
-card.classList.add("card");
+      return matchesLocation && matchesDate && matchesSize;
+    })
+    .forEach(log => {
 
-card.innerHTML = `
-<h3>${log.location}</h3>
-<p>Owner: ${log.owner}</p>
-<p>Volume: ${log.volume} m³</p>
-<p>Pickup Date: ${log.date}</p>
-<a class="button" href="accept.html">View Transport</a>
-`;
+      const card = document.createElement("div");
+      card.classList.add("card");
 
-container.appendChild(card);
+      card.innerHTML = `
+        <h3>${log.location}</h3>
+        <p>Owner: ${log.owner} (${log.user})</p>
+        <p>Volume: ${log.volume} m³</p>
+        <p>Pickup Date: ${log.date}</p>
+        <a class="button" href="accept.html">View Transport</a>
+      `;
 
-});
-
+      container.appendChild(card);
+    });
 }
 
 function registerUser(event) {
@@ -182,3 +204,18 @@ window.onload = function () {
 updateUserMenu();
 displayLogs();
 };
+
+function applyFilters() {
+  const locationValue = document.getElementById("locationFilter").value;
+  const dateValue = document.getElementById("dateFilter").value;
+  const sizeValue = document.getElementById("sizeFilter").value;
+
+  displayLogs(locationValue, dateValue, sizeValue);
+}
+
+function resetFilters() {
+  document.getElementById("locationFilter").value = "";
+  document.getElementById("dateFilter").value = "";
+  document.getElementById("sizeFilter").value = "";
+  displayLogs();
+}

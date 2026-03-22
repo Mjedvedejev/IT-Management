@@ -29,20 +29,31 @@
 
     <h2>Available Log Loads</h2>
 
-    <div class="card">
-      <h3>Kočevje Area</h3>
-      <p>Owner: Private</p>
-      <p>Volume: 8 m³</p>
-      <a class="button" href="accept.html">View Transport</a>
-    </div>
+<div class="filters">
 
-    <div class="card">
-      <h3>Ribnica Area</h3>
-      <p>Owner: SIDG</p>
-      <p>Volume: 12 m³</p>
-      <a class="button" href="accept.html">View Transport</a>
-    </div>
+  <input 
+    type="text" 
+    id="locationFilter" 
+    placeholder="📍 Location"
+    onkeyup="applyFilters()"
+  >
 
+  <input 
+    type="date" 
+    id="dateFilter"
+    onchange="applyFilters()"
+  >
+
+  <input
+    type="number"
+    id="sizeFilter"
+    placeholder="📦 Max volume (m³)"
+    oninput="applyFilters()"
+  >
+
+  <button onclick="resetFilters()">Clear</button>
+
+</div>
     <div id="logsContainer"></div>
 
     <script src="script.js"></script>
