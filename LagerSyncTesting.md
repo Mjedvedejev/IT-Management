@@ -1,4 +1,4 @@
-# LagerSync – Usability Testing (Updated)
+# LagerSync – Usability Testing 
 
 ## Session Design
 
