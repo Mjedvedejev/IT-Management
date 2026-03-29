@@ -94,6 +94,7 @@ Administrators and SIDG will be able to:
 - Visual Studio Code
 - GitHub
 - LocalStorage (for prototype testing)
+- Jira
 
 ---
 
@@ -132,4 +133,4 @@ Stores:
 |------------|------|
 | Tilen Tratnik | Developer |
 | Florijan Peric | Developer |
-| Vid Brložnik | Public Relations / Documentation |
+| Vid Brložnik | HR / Presenter / UI |
