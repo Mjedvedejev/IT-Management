@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Auth</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+
+<header>
+<h1>LagerSync</h1>
+<nav>
+<a href="index.html">Dashboard</a>
+<a href="add.html">Add Logs</a>
+<a href="accept.html">Accept Transport</a>
+<a href="chat.html">Community Chat</a>
+<a href="auth.html">Auth</a>
+</nav>
+<p id="userBadge"></p>
+</header>
+
+<div class="container">
+
+<h2>Authentication</h2>
+
+<div class="card">
+<h3>Sign In</h3>
+<form id="loginForm">
+<label for="loginUsername">Username</label>
+<input id="loginUsername" required>
+
+<label for="loginPassword">Password</label>
+<input id="loginPassword" type="password" required>
+
+<button class="button" type="submit">Sign In</button>
+<button class="button button-secondary" type="button" id="logoutBtn">Sign Out</button>
+</form>
+</div>
+
+<div class="card">
+<h3>Create Account</h3>
+<form id="registerForm">
+<label for="registerUsername">Username</label>
+<input id="registerUsername" required>
+
+<label for="registerPassword">Password (min 6)</label>
+<input id="registerPassword" type="password" minlength="6" required>
+
+<label for="registerRole">Role</label>
+<select id="registerRole" required>
+<option value="owner">Owner</option>
+<option value="driver">Driver</option>
+</select>
+
+<button class="button" type="submit">Register</button>
+</form>
+</div>
+
+<p id="authMsg"></p>
+
+<div class="card">
+<h3>Demo Accounts</h3>
+<p>Owner: owner / owner123</p>
+<p>Driver: driver / driver123</p>
+<p>Admin: admin / admin123</p>
+</div>
+
+</div>
+
+</body>
+</html>

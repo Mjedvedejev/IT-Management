@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Community Chat</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+
+<header>
+<h1>LagerSync</h1>
+<nav>
+<a href="index.html">Dashboard</a>
+<a href="add.html">Add Logs</a>
+<a href="accept.html">Accept Transport</a>
+<a href="chat.html">Community Chat</a>
+<a href="auth.html">Auth</a>
+</nav>
+<p id="userBadge"></p>
+</header>
+
+<div class="container">
+
+<h2>Community Chat</h2>
+
+<div class="card">
+<form id="chatForm">
+<label for="chatUsername">Name</label>
+<input id="chatUsername" maxlength="40" placeholder="Your name" required>
+
+<label for="chatInput">Message</label>
+<input id="chatInput" maxlength="300" placeholder="Type a message" required>
+
+<button class="button" type="submit">Send</button>
+</form>
+</div>
+
+<div id="chatMessages" class="card"></div>
+
+</div>
+
+</body>
+</html>

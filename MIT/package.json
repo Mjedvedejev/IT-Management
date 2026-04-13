@@ -1,0 +1,13 @@
+{
+  "name": "lagersync",
+  "version": "1.0.0",
+  "description": "LagerSync with SQLite backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "sqlite3": "^5.1.7"
+  }
+}

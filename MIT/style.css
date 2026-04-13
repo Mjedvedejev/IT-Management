@@ -1,231 +1,195 @@
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
-  background-image: url("graphics/background.jpg");
-  /* light wood/beige background */
+body{
+font-family:Arial,Helvetica,sans-serif;
+margin:0;
+background:#f4f6f8;
 }
 
-/* HEADER */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #2f4f2f;
-  /* deep forest green */
-  color: #f4f1ea;
-  padding: 16px;
+header{
+background:#1f6f43;
+color:white;
+padding:16px;
 }
 
-nav a {
-  color: #d8e2c8;
-  margin-right: 15px;
-  text-decoration: none;
-  font-size: 1rem;
-  font-weight: bold;
+#userBadge{
+margin:8px 0 0;
+font-size:13px;
+color:#d4f2e3;
 }
 
-nav a:hover {
-  color: #ffffff;
+nav a{
+color:white;
+margin-right:15px;
+text-decoration:none;
 }
 
-/* USER MENU */
-.user-icon {
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
+.container{
+max-width:1000px;
+margin:auto;
+padding:20px;
 }
 
-.user-menu {
-  position: relative;
-  display: inline-block;
+.card{
+background:white;
+padding:15px;
+border-radius:10px;
+margin-bottom:15px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 
-.dropdown {
-  display: none;
-  position: absolute;
-  right: 0;
-  background: #3b5d3b;
-  border: 1px solid #2f4f2f;
-  padding: 10px;
-  border-radius: 6px;
+.button{
+background:#1f6f43;
+color:white;
+padding:8px 12px;
+border-radius:6px;
+text-decoration:none;
+border:none;
+cursor:pointer;
+display:inline-block;
+margin-right:8px;
 }
 
-.user-menu:hover .dropdown {
-  display: block;
+.button-danger{
+background:#b00020;
 }
 
-.dropdown a {
-  display: block;
-  padding: 6px 10px;
-  text-decoration: none;
-  color: #e6f0d4;
+.button-secondary{
+background:#3a4a5a;
 }
 
-.dropdown a:hover {
-  background: rgba(255, 255, 255, 0.1);
+.status-pill{
+display:inline-block;
+padding:2px 8px;
+border-radius:999px;
+font-size:12px;
+text-transform:capitalize;
 }
 
-/* CONTAINER */
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 20px;
+.status-pending{
+background:#fff5d6;
+color:#6f5b00;
 }
 
-/* CARD (FORM BOX) */
-.card {
-  max-width: 420px;
-  margin: 40px auto;
-  background: #ffffff;
-  padding: 22px;
-  border-radius: 12px;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-  border-top: 6px solid #8b5a2b;
-  /* wood accent */
+.status-accepted,
+.status-completed{
+background:#dcf7e9;
+color:#145c35;
 }
 
-/* HEADINGS */
-h2 {
-  background: white;
-  color: #2f4f2f;
-  margin: 40px auto;
-  font-size: 24px;
-  border-radius: 12px;
-  font-weight: bold;
-  border-top: 6px solid #8b5a2b;
-  text-align: center;
-  max-width: 420px;
-  padding-left: 12px;
+.status-declined{
+background:#ffdfe5;
+color:#7a1025;
 }
 
-
-h3 {
-  color: #2f4f2f;
-  text-align: center;
-  margin-bottom: 15px;
+.status-actions{
+margin-top:10px;
 }
 
-/* FORM */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.stats-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+gap:10px;
 }
 
-/* LABELS */
-label {
-  color: #3b3b3b;
-  font-weight: bold;
+.stat-item{
+background:#f6f8fa;
+border:1px solid #e6ebf0;
+border-radius:8px;
+padding:10px;
 }
 
-/* INPUTS */
-form input,
-form select {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #c8c8c8;
-  font-size: 14px;
-  outline: none;
-  transition: 0.2s;
-  background: #fafafa;
+.stat-item span{
+display:block;
+font-size:12px;
+color:#5f6b77;
 }
 
-form input:focus,
-form select:focus {
-  border-color: #2f4f2f;
-  box-shadow: 0 0 5px rgba(47, 79, 47, 0.4);
+.stat-item strong{
+font-size:20px;
 }
 
-/* BUTTON */
-form button {
-  margin-top: 10px;
-  background: #8b5a2b;
-  /* wood brown */
-  color: #fff;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
+#transportStatus{
+margin:0;
 }
 
-form button:hover {
-  background: #6e4521;
+#transportHistory p{
+margin:0;
+color:#5f6b77;
 }
 
-/* GENERIC BUTTON */
-.button {
-  background: #2f4f2f;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-weight: bold;
+.decision-row{
+padding:10px 0;
+border-bottom:1px solid #e6e8eb;
 }
 
-/* BOT CONTAINER */
-.bot_container {
-  max-width: 400px;
-  margin: auto;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  font-weight: bold;
-  color: #e6f0d4;
+.decision-row:last-child{
+border-bottom:none;
 }
 
-/* FILTER BAR */
-.filters {
-  border-top: 6px solid #8b5a2b;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: center;
-  margin: 15px 0 25px 0;
-  padding: 15px;
-  background: #f5f7fa;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  justify-content: center;
-  max-width: 700px;
-  margin:20px auto;
+.decision-main{
+font-weight:600;
 }
 
-/* INPUTS */
-.filters input {
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-  outline: none;
-  transition: 0.2s;
+.decision-time,
+.decision-reason{
+display:block;
+font-size:13px;
+color:#5f6b77;
+margin-top:2px;
 }
 
-/* INPUT FOCUS */
-.filters input:focus {
-  border-color: #4a90e2;
-  box-shadow: 0 0 0 2px rgba(74,144,226,0.15);
+#chatMessages{
+max-height:420px;
+overflow-y:auto;
 }
 
-/* BUTTON */
-.filters button {
-  padding: 10px 16px;
-  border: none;
-  background: #4a90e2;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.2s;
+.chat-message{
+padding:10px 0;
+border-bottom:1px solid #e6e8eb;
 }
 
-.filters button:hover {
-  background: #357abd;
+.chat-message:last-child{
+border-bottom:none;
 }
 
-/* RESPONSIVE */
-@media (max-width: 600px) {
-  .filters {
-    flex-direction: column;
-    align-items: stretch;
-  }
+.chat-meta{
+font-size:12px;
+color:#5f6b77;
+margin-bottom:4px;
+}
+
+.chat-text{
+font-size:15px;
+}
+
+.chat-empty{
+color:#5f6b77;
+margin:0;
+}
+
+input,
+select,
+button{
+font:inherit;
+}
+
+label{
+display:block;
+margin:12px 0 6px;
+}
+
+input,
+select{
+width:100%;
+padding:10px;
+border:1px solid #cdd3d9;
+border-radius:8px;
+box-sizing:border-box;
+}
+
+form .button{
+margin-top:14px;
+}
+
+#authMsg{
+font-weight:600;
 }
