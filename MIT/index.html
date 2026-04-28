@@ -1,3 +1,5 @@
+<!-- index.html -->
+<!-- Main dashboard showing logs and system stats -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -5,47 +7,47 @@
 <meta charset="UTF-8">
 <title>LagerSync Dashboard</title>
 <link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
 </head>
+
 <body>
 
 <header>
-<h1>LagerSync</h1>
-<nav>
-<a href="index.html">Dashboard</a>
-<a href="add.html">Add Logs</a>
-<a href="accept.html">Accept Transport</a>
-<a href="chat.html">Community Chat</a>
-<a href="auth.html">Auth</a>
-</nav>
-<p id="userBadge"></p>
+  <h1>LagerSync</h1>
+
+  <!-- Shared navigation -->
+<nav id="mainNav"></nav>
+
+  <p id="userBadge"></p>
 </header>
 
 <div class="container">
 
-<h2>Available Log Loads</h2>
+  <h2>Available Log Loads</h2>
 
-<div class="card">
-<h3>Project Stats</h3>
-<div id="statsPanel">Loading stats...</div>
-</div>
+  <!-- Stats overview -->
+  <div class="card">
+    <h3>Project Stats</h3>
+    <div id="statsPanel">Loading stats...</div>
+  </div>
 
-<div class="card">
-<h3>Kočevje Area</h3>
-<p>Owner: Private</p>
-<p>Volume: 8 m³</p>
-<a class="button" href="accept.html">View Transport</a>
-</div>
+  <!-- Static sample loads -->
+  <div class="card">
+    <h3>Kočevje Area</h3>
+    <p>Owner: Private</p>
+    <p>Volume: 8 m³</p>
+    <a class="button" href="accept.html">View Transport</a>
+  </div>
 
-<div class="card">
-<h3>Ribnica Area</h3>
-<p>Owner: SIDG</p>
-<p>Volume: 12 m³</p>
-<a class="button" href="accept.html">View Transport</a>
-</div>
+  <div class="card">
+    <h3>Ribnica Area</h3>
+    <p>Owner: SIDG</p>
+    <p>Volume: 12 m³</p>
+    <a class="button" href="accept.html">View Transport</a>
+  </div>
 
-<div id="logsContainer"></div>
-
-<script src="script.js"></script>
+  <!-- Dynamic logs -->
+  <div id="logsContainer"></div>
 
 </div>
 

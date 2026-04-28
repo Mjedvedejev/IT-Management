@@ -1,3 +1,6 @@
+<!-- chat.html -->
+<!-- Community chat page for user messages -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,37 +9,39 @@
 <link rel="stylesheet" href="style.css">
 <script src="script.js" defer></script>
 </head>
+
 <body>
 
 <header>
-<h1>LagerSync</h1>
-<nav>
-<a href="index.html">Dashboard</a>
-<a href="add.html">Add Logs</a>
-<a href="accept.html">Accept Transport</a>
-<a href="chat.html">Community Chat</a>
-<a href="auth.html">Auth</a>
-</nav>
-<p id="userBadge"></p>
+  <h1>LagerSync</h1>
+
+  <!-- Shared navigation -->
+<nav id="mainNav"></nav>
+
+  <p id="userBadge"></p>
 </header>
 
 <div class="container">
 
-<h2>Community Chat</h2>
+  <h2>Community Chat</h2>
 
-<div class="card">
-<form id="chatForm">
-<label for="chatUsername">Name</label>
-<input id="chatUsername" maxlength="40" placeholder="Your name" required>
+  <!-- Chat input form -->
+  <div class="card">
+    <form id="chatForm">
 
-<label for="chatInput">Message</label>
-<input id="chatInput" maxlength="300" placeholder="Type a message" required>
+      <label for="chatUsername">Name</label>
+      <input id="chatUsername" maxlength="40" placeholder="Your name" required>
 
-<button class="button" type="submit">Send</button>
-</form>
-</div>
+      <label for="chatInput">Message</label>
+      <input id="chatInput" maxlength="300" placeholder="Type a message" required>
 
-<div id="chatMessages" class="card"></div>
+      <button class="button" type="submit">Send</button>
+
+    </form>
+  </div>
+
+  <!-- Messages container -->
+  <div id="chatMessages" class="card"></div>
 
 </div>
 

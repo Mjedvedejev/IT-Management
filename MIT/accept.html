@@ -1,3 +1,6 @@
+<!-- accept.html -->
+<!-- Page for approving or declining transport decisions -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,59 +9,65 @@
 <link rel="stylesheet" href="style.css">
 <script src="script.js" defer></script>
 </head>
+
 <body>
 
 <header>
-<h1>LagerSync</h1>
-<nav>
-<a href="index.html">Dashboard</a>
-<a href="add.html">Add Logs</a>
-<a href="accept.html">Accept Transport</a>
-<a href="chat.html">Community Chat</a>
-<a href="auth.html">Auth</a>
-</nav>
-<p id="userBadge"></p>
+  <h1>LagerSync</h1>
+
+  <!-- Main navigation (shared across all pages) -->
+<nav id="mainNav"></nav>
+
+  <!-- Displays current logged-in user -->
+  <p id="userBadge"></p>
 </header>
 
 <div class="container">
 
-<h2>Truck Route</h2>
+  <h2>Truck Route</h2>
 
-<ol>
-<li>Kočevje – 8 m³</li>
-<li>Ribnica – 12 m³</li>
-<li>Sodražica – 6 m³</li>
-</ol>
+  <!-- Static route preview -->
+  <ol>
+    <li>Kočevje – 8 m³</li>
+    <li>Ribnica – 12 m³</li>
+    <li>Sodražica – 6 m³</li>
+  </ol>
 
-<h3>Accept Transport</h3>
+  <h3>Accept Transport</h3>
 
-<label for="transportUser">Decided By</label>
-<input id="transportUser" placeholder="Dispatcher name" required>
+  <!-- Transport decision form inputs -->
+  <label for="transportUser">Decided By</label>
+  <input id="transportUser" placeholder="Dispatcher name" required>
 
-<label for="transportReason">Reason (optional)</label>
-<input id="transportReason" placeholder="Why accepted or declined">
+  <label for="transportReason">Reason (optional)</label>
+  <input id="transportReason" placeholder="Why accepted or declined">
 
-<label>
-<input type="checkbox" id="acceptCheck">
-I accept the transport conditions
-</label>
+  <!-- Must be checked before accepting -->
+  <label>
+    <input type="checkbox" id="acceptCheck">
+    I accept the transport conditions
+  </label>
 
-<br><br>
-<button class="button" onclick="acceptTransport()">Accept</button>
-<button class="button button-danger" onclick="declineTransport()">Decline</button>
+  <br><br>
 
-<p id="acceptMsg"></p>
+  <!-- Actions -->
+  <button class="button" onclick="acceptTransport()">Accept</button>
+  <button class="button button-danger" onclick="declineTransport()">Decline</button>
 
-<div class="card">
-<h3>Latest Transport Decision</h3>
-<p id="transportStatus">No decision has been submitted yet.</p>
-</div>
+  <p id="acceptMsg"></p>
 
-<div class="card">
-<h3>Decision History</h3>
-<a class="button" href="/api/transport/history.csv">Export CSV</a>
-<div id="transportHistory">No decisions yet.</div>
-</div>
+  <!-- Latest decision -->
+  <div class="card">
+    <h3>Latest Transport Decision</h3>
+    <p id="transportStatus">No decision has been submitted yet.</p>
+  </div>
+
+  <!-- History -->
+  <div class="card">
+    <h3>Decision History</h3>
+    <a class="button" href="/api/transport/history.csv">Export CSV</a>
+    <div id="transportHistory">No decisions yet.</div>
+  </div>
 
 </div>
 

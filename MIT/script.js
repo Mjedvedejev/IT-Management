@@ -1,497 +1,445 @@
+/* =========================================================
+   LAGERSYNC FRONTEND CONTROLLER
+   - Handles auth
+   - Handles logs
+   - Handles transport
+   - Handles chat
+   - Handles UI rendering
+========================================================= */
+
+/* =========================
+   CONFIG
+========================= */
+
 const API_BASE = "";
 
+/* =========================
+   AUTH STORAGE HELPERS
+========================= */
+
 function getToken() {
-return localStorage.getItem("authToken") || "";
+  return localStorage.getItem("authToken") || "";
 }
 
 function getCurrentUser() {
-const raw = localStorage.getItem("authUser");
-if(!raw) return null;
+  const raw = localStorage.getItem("authUser");
+  if (!raw) return null;
 
-try {
-return JSON.parse(raw);
-}
-catch(error) {
-return null;
-}
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
 }
 
 function setSession(token, user) {
-localStorage.setItem("authToken", token);
-localStorage.setItem("authUser", JSON.stringify(user));
+  localStorage.setItem("authToken", token);
+  localStorage.setItem("authUser", JSON.stringify(user));
 }
 
 function clearSession() {
-localStorage.removeItem("authToken");
-localStorage.removeItem("authUser");
+  localStorage.removeItem("authToken");
+  localStorage.removeItem("authUser");
 }
+
+/* =========================
+   SECURITY HELPERS
+========================= */
 
 function escapeHtml(value) {
-return String(value)
-.replace(/&/g, "&amp;")
-.replace(/</g, "&lt;")
-.replace(/>/g, "&gt;")
-.replace(/\"/g, "&quot;")
-.replace(/'/g, "&#039;");
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
+
+/* =========================
+   API WRAPPER
+========================= */
 
 async function requestJson(url, options = {}) {
-const token = getToken();
-const headers = {
-"Content-Type": "application/json",
-...(options.headers || {})
-};
+  const token = getToken();
 
-if(token) {
-headers.Authorization = `Bearer ${token}`;
+  const headers = {
+    "Content-Type": "application/json",
+    ...(options.headers || {})
+  };
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const response = await fetch(`${API_BASE}${url}`, {
+    ...options,
+    headers
+  });
+
+  let data = {};
+  try {
+    data = await response.json();
+  } catch {}
+
+  if (!response.ok) {
+    throw new Error(data.error || `Request failed: ${response.status}`);
+  }
+
+  return data;
 }
 
-const response = await fetch(`${API_BASE}${url}`, {
-...options,
-headers
-});
+/* =========================================================
+   AUTH UI
+========================================================= */
 
-let data = {};
-try {
-data = await response.json();
-}
-catch(error) {
-// Non-JSON responses are handled by status checks below.
-}
-
-if(!response.ok) {
-const message = data && data.error ? data.error : `Request failed: ${response.status}`;
-throw new Error(message);
-}
-
-return data;
-}
-
-function setAuthMessage(text, isError) {
-const messageEl = document.getElementById("authMsg");
-if(!messageEl) return;
-
-messageEl.textContent = text;
-messageEl.style.color = isError ? "#b00020" : "#1f6f43";
-}
-
+/* Show user in header */
 function renderUserBadge() {
-const badge = document.getElementById("userBadge");
-if(!badge) return;
+  const el = document.getElementById("userBadge");
+  if (!el) return;
 
-const user = getCurrentUser();
-if(!user) {
-badge.textContent = "Not signed in";
-return;
+  const user = getCurrentUser();
+
+  el.textContent = user
+    ? `Signed in as ${user.username} (${user.role})`
+    : "Not signed in";
 }
 
-badge.textContent = `Signed in as ${user.username} (${user.role})`;
+/* Smart navbar (login/register OR logout) */
+function renderNavAuthState() {
+  const nav = document.getElementById("mainNav");
+  if (!nav) return;
+
+  const user = getCurrentUser();
+
+  let html = `
+    <a href="index.html">Dashboard</a>
+    <a href="add.html">Add Logs</a>
+    <a href="accept.html">Accept Transport</a>
+    <a href="chat.html">Community Chat</a>
+  `;
+
+  if (user) {
+    html += `<a href="#" onclick="logoutUser()">Logout</a>`;
+  } else {
+    html += `
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
+    `;
+  }
+
+  nav.innerHTML = html;
 }
 
-async function registerUser(event) {
-event.preventDefault();
-
-const username = document.getElementById("registerUsername").value.trim();
-const password = document.getElementById("registerPassword").value;
-const role = document.getElementById("registerRole").value;
-
-if(!username || !password || !role) {
-setAuthMessage("Please fill in all register fields.", true);
-return;
-}
-
-try {
-await requestJson("/api/auth/register", {
-method: "POST",
-body: JSON.stringify({ username, password, role })
-});
-
-setAuthMessage("Registered successfully. You can now sign in.", false);
-(event.target).reset();
-}
-catch(error) {
-setAuthMessage(error.message, true);
-}
-}
-
+/* LOGIN */
 async function loginUser(event) {
-event.preventDefault();
+  event.preventDefault();
 
-const username = document.getElementById("loginUsername").value.trim();
-const password = document.getElementById("loginPassword").value;
+  const username = document.getElementById("loginUsername")?.value.trim();
+  const password = document.getElementById("loginPassword")?.value;
 
-if(!username || !password) {
-setAuthMessage("Please enter username and password.", true);
-return;
+  if (!username || !password) return;
+
+  try {
+    const data = await requestJson("/api/auth/login", {
+      method: "POST",
+      body: JSON.stringify({ username, password })
+    });
+
+    setSession(data.token, data.user);
+
+    window.location.href = "index.html";
+  } catch (err) {
+    alert(err.message);
+  }
 }
 
-try {
-const data = await requestJson("/api/auth/login", {
-method: "POST",
-body: JSON.stringify({ username, password })
-});
+/* REGISTER */
+async function registerUser(event) {
+  event.preventDefault();
 
-setSession(data.token, data.user);
-renderUserBadge();
-setAuthMessage("Signed in successfully.", false);
-}
-catch(error) {
-setAuthMessage(error.message, true);
-}
+  const username = document.getElementById("registerUsername")?.value.trim();
+  const password = document.getElementById("registerPassword")?.value;
+  const role = document.getElementById("registerRole")?.value;
+
+  try {
+    await requestJson("/api/auth/register", {
+      method: "POST",
+      body: JSON.stringify({ username, password, role })
+    });
+
+  const msgEl = document.getElementById("authMsg");
+
+  if (msgEl) {
+    msgEl.textContent = "Account created. Redirecting to login...";
+    msgEl.style.color = "#1f6f43";
+  }
+
+  // redirect after short delay (no blocking popup)
+  setTimeout(() => {
+    window.location.href = "login.html";
+  }, 1200);
+  } catch (err) {
+    alert(err.message);
+  }
 }
 
+/* LOGOUT */
 async function logoutUser() {
-try {
-if(getToken()) {
-await requestJson("/api/auth/logout", { method: "POST" });
-}
-}
-catch(error) {
-// We still clear local session even when server token cleanup fails.
+  try {
+    if (getToken()) {
+      await requestJson("/api/auth/logout", { method: "POST" });
+    }
+  } catch {}
+
+  clearSession();
+  window.location.href = "login.html";
 }
 
-clearSession();
-renderUserBadge();
-setAuthMessage("Signed out.", false);
-}
+/* =========================================================
+   AUTH INIT
+========================================================= */
 
 function initAuthPage() {
-const loginForm = document.getElementById("loginForm");
-const registerForm = document.getElementById("registerForm");
-const logoutBtn = document.getElementById("logoutBtn");
+  const loginForm = document.getElementById("loginForm");
+  const registerForm = document.getElementById("registerForm");
 
-if(!loginForm || !registerForm || !logoutBtn) return;
-
-loginForm.addEventListener("submit", loginUser);
-registerForm.addEventListener("submit", registerUser);
-logoutBtn.addEventListener("click", logoutUser);
-
-renderUserBadge();
+  if (loginForm) loginForm.addEventListener("submit", loginUser);
+  if (registerForm) registerForm.addEventListener("submit", registerUser);
 }
 
-async function setTransportDecision(status) {
-const check = document.getElementById("acceptCheck");
-const msg = document.getElementById("acceptMsg");
-const userInput = document.getElementById("transportUser");
-const reasonInput = document.getElementById("transportReason");
-
-if(!msg) return;
-
-const decidedBy = userInput ? userInput.value.trim() : "";
-const reason = reasonInput ? reasonInput.value.trim() : "";
-
-if(!getToken()) {
-msg.textContent = "Please sign in as driver/admin first.";
-msg.style.color = "red";
-return;
-}
-
-if(!decidedBy) {
-msg.textContent = "Please enter who made the decision.";
-msg.style.color = "red";
-return;
-}
-
-if(status === "accepted" && (!check || !check.checked)) {
-msg.textContent = "Please accept the conditions first.";
-msg.style.color = "red";
-return;
-}
-
-try {
-await requestJson("/api/transport/decision", {
-method: "POST",
-body: JSON.stringify({
-status,
-decidedBy,
-reason
-})
-});
-
-msg.textContent = status === "accepted"
-? "Transport accepted successfully."
-: "Transport declined successfully.";
-msg.style.color = status === "accepted" ? "green" : "#b00020";
-
-displayTransportStatus();
-displayTransportHistory();
-}
-catch(error) {
-msg.textContent = error.message;
-msg.style.color = "red";
-}
-}
-
-function acceptTransport() {
-setTransportDecision("accepted");
-}
-
-function declineTransport() {
-setTransportDecision("declined");
-}
-
-async function displayTransportStatus() {
-const statusEl = document.getElementById("transportStatus");
-if(!statusEl) return;
-
-try {
-const data = await requestJson("/api/transport/latest");
-if(!data.decision) {
-statusEl.textContent = "No decision has been submitted yet.";
-return;
-}
-
-const label = data.decision.status === "accepted" ? "Accepted" : "Declined";
-const reasonText = data.decision.reason ? ` Reason: ${data.decision.reason}.` : "";
-statusEl.textContent = `${label} by ${data.decision.decided_by} at ${data.decision.created_at}.${reasonText}`;
-}
-catch(error) {
-statusEl.textContent = "Unable to load transport status.";
-}
-}
-
-async function displayTransportHistory() {
-const historyEl = document.getElementById("transportHistory");
-if(!historyEl) return;
-
-try {
-const data = await requestJson("/api/transport/history");
-const decisions = data.decisions || [];
-
-if(decisions.length === 0) {
-historyEl.innerHTML = "<p>No decisions yet.</p>";
-return;
-}
-
-historyEl.innerHTML = "";
-
-decisions.forEach(decision => {
-const row = document.createElement("div");
-row.classList.add("decision-row");
-
-const status = decision.status === "accepted" ? "Accepted" : "Declined";
-const reason = decision.reason ? `<span class=\"decision-reason\">Reason: ${escapeHtml(decision.reason)}</span>` : "";
-
-row.innerHTML = `
-<div class="decision-main">${status} by ${escapeHtml(decision.decided_by)}</div>
-<div class="decision-time">${escapeHtml(decision.created_at)}</div>
-${reason}
-`;
-
-historyEl.appendChild(row);
-});
-}
-catch(error) {
-historyEl.innerHTML = "<p>Unable to load decision history.</p>";
-}
-}
+/* =========================================================
+   LOGS
+========================================================= */
 
 async function addLogs(event) {
-event.preventDefault();
+  event.preventDefault();
 
-if(!getToken()) {
-alert("Sign in as owner/admin before adding logs.");
-return;
-}
+  if (!getToken()) {
+    alert("Please log in first.");
+    return;
+  }
 
-const owner = document.getElementById("ownerType").value;
-const location = document.getElementById("location").value;
-const volume = document.getElementById("volume").value;
-const date = document.getElementById("date").value;
+  const owner = document.getElementById("ownerType")?.value;
+  const location = document.getElementById("location")?.value;
+  const volume = document.getElementById("volume")?.value;
+  const date = document.getElementById("date")?.value;
 
-const newLog = {
-owner,
-location,
-volume: Number(volume),
-date
-};
+  try {
+    await requestJson("/api/logs", {
+      method: "POST",
+      body: JSON.stringify({
+        owner,
+        location,
+        volume: Number(volume),
+        date
+      })
+    });
 
-try {
-await requestJson("/api/logs", {
-method: "POST",
-body: JSON.stringify(newLog)
-});
-
-alert("Logs added successfully!");
-
-const form = document.getElementById("logForm");
-if(form) {
-form.reset();
-}
-}
-catch(error) {
-alert(error.message);
-}
-}
-
-async function updateLogStatus(logId, status) {
-try {
-await requestJson(`/api/logs/${logId}/status`, {
-method: "PATCH",
-body: JSON.stringify({ status })
-});
-
-displayLogs();
-displayStats();
-}
-catch(error) {
-alert(error.message);
-}
-}
-
-function getStatusActions(log) {
-const user = getCurrentUser();
-if(!user || (user.role !== "driver" && user.role !== "admin")) {
-return "";
-}
-
-return `
-<div class="status-actions">
-<button class="button" onclick="updateLogStatus(${log.id}, 'accepted')">Accept</button>
-<button class="button button-danger" onclick="updateLogStatus(${log.id}, 'declined')">Decline</button>
-<button class="button button-secondary" onclick="updateLogStatus(${log.id}, 'completed')">Complete</button>
-</div>
-`;
+    alert("Log added!");
+    document.getElementById("logForm")?.reset();
+  } catch (err) {
+    alert(err.message);
+  }
 }
 
 async function displayLogs() {
-const container = document.getElementById("logsContainer");
-if(!container) return;
+  const container = document.getElementById("logsContainer");
+  if (!container) return;
 
-try {
-const data = await requestJson("/api/logs");
-const logs = data.logs || [];
+  try {
+    const data = await requestJson("/api/logs");
 
-container.innerHTML = "";
+    container.innerHTML = "";
 
-logs.forEach(log => {
-const card = document.createElement("div");
-card.classList.add("card");
+    (data.logs || []).forEach(log => {
+      const div = document.createElement("div");
+      div.className = "card";
 
-card.innerHTML = `
-<h3>${escapeHtml(log.location)}</h3>
-<p>Owner: ${escapeHtml(log.owner)}</p>
-<p>Volume: ${escapeHtml(log.volume)} m3</p>
-<p>Pickup Date: ${escapeHtml(log.date)}</p>
-<p>Status: <span class="status-pill status-${escapeHtml(log.status)}">${escapeHtml(log.status)}</span></p>
-<a class="button" href="accept.html">View Transport</a>
-${getStatusActions(log)}
-`;
+      div.innerHTML = `
+        <h3>${escapeHtml(log.location)}</h3>
+        <p>Owner: ${escapeHtml(log.owner)}</p>
+        <p>Volume: ${escapeHtml(log.volume)} m³</p>
+        <p>Date: ${escapeHtml(log.date)}</p>
+        <p>Status: ${escapeHtml(log.status)}</p>
+        <a class="button" href="accept.html">View</a>
+      `;
 
-container.appendChild(card);
-});
+      container.appendChild(div);
+    });
+  } catch {
+    container.innerHTML = "<p>Failed to load logs.</p>";
+  }
 }
-catch(error) {
-container.innerHTML = "<p>Unable to load logs. Start the server to use SQLite storage.</p>";
-}
-}
+
+/* =========================================================
+   STATS
+========================================================= */
 
 async function displayStats() {
-const panel = document.getElementById("statsPanel");
-if(!panel) return;
+  const el = document.getElementById("statsPanel");
+  if (!el) return;
 
-try {
-const data = await requestJson("/api/stats");
-const stats = data.stats || {};
+  try {
+    const data = await requestJson("/api/stats");
 
-panel.innerHTML = `
-<div class="stats-grid">
-<div class="stat-item"><span>Total logs</span><strong>${stats.totalLogs || 0}</strong></div>
-<div class="stat-item"><span>Accepted</span><strong>${stats.acceptedDecisions || 0}</strong></div>
-<div class="stat-item"><span>Declined</span><strong>${stats.declinedDecisions || 0}</strong></div>
-<div class="stat-item"><span>Completed logs</span><strong>${stats.completedLogs || 0}</strong></div>
-<div class="stat-item"><span>Pending logs</span><strong>${stats.pendingLogs || 0}</strong></div>
-</div>
-`;
-}
-catch(error) {
-panel.innerHTML = "<p>Unable to load stats.</p>";
-}
-}
+    const s = data.stats || {};
 
-async function renderChatMessages() {
-const list = document.getElementById("chatMessages");
-if(!list) return;
-
-try {
-const data = await requestJson("/api/chat");
-const messages = data.messages || [];
-
-list.innerHTML = "";
-
-if(messages.length === 0) {
-const empty = document.createElement("p");
-empty.classList.add("chat-empty");
-empty.textContent = "No messages yet. Start the conversation.";
-list.appendChild(empty);
-return;
+    el.innerHTML = `
+      <div class="stats-grid">
+        <div class="stat-item"><span>Total</span><strong>${s.totalLogs || 0}</strong></div>
+        <div class="stat-item"><span>Accepted</span><strong>${s.acceptedDecisions || 0}</strong></div>
+        <div class="stat-item"><span>Declined</span><strong>${s.declinedDecisions || 0}</strong></div>
+        <div class="stat-item"><span>Completed</span><strong>${s.completedLogs || 0}</strong></div>
+      </div>
+    `;
+  } catch {
+    el.innerHTML = "<p>Stats unavailable.</p>";
+  }
 }
 
-messages.forEach(message => {
-const item = document.createElement("div");
-item.classList.add("chat-message");
+/* =========================================================
+   TRANSPORT
+========================================================= */
 
-item.innerHTML = `
-<div class="chat-meta">${escapeHtml(message.user)} • ${escapeHtml(message.created_at)}</div>
-<div class="chat-text">${escapeHtml(message.text)}</div>
-`;
+async function displayTransportStatus() {
+  const el = document.getElementById("transportStatus");
+  if (!el) return;
 
-list.appendChild(item);
-});
+  try {
+    const data = await requestJson("/api/transport/latest");
+
+    if (!data.decision) {
+      el.textContent = "No decision yet.";
+      return;
+    }
+
+    el.textContent = `${data.decision.status} by ${data.decision.decided_by}`;
+  } catch {
+    el.textContent = "Failed to load status.";
+  }
 }
-catch(error) {
-list.innerHTML = "<p>Unable to load chat messages.</p>";
+
+async function displayTransportHistory() {
+  const el = document.getElementById("transportHistory");
+  if (!el) return;
+
+  try {
+    const data = await requestJson("/api/transport/history");
+
+    el.innerHTML = "";
+
+    (data.decisions || []).forEach(d => {
+      const row = document.createElement("div");
+      row.className = "decision-row";
+
+      row.innerHTML = `
+        <div class="decision-main">${escapeHtml(d.status)} by ${escapeHtml(d.decided_by)}</div>
+        <div class="decision-time">${escapeHtml(d.created_at)}</div>
+      `;
+
+      el.appendChild(row);
+    });
+  } catch {
+    el.innerHTML = "<p>Error loading history.</p>";
+  }
 }
+
+function acceptTransport() {
+  setTransportDecision("accepted");
+}
+
+function declineTransport() {
+  setTransportDecision("declined");
+}
+
+async function setTransportDecision(status) {
+  const user = document.getElementById("transportUser")?.value.trim();
+  const reason = document.getElementById("transportReason")?.value.trim();
+  const msg = document.getElementById("acceptMsg");
+
+  if (!msg) return;
+
+  try {
+    await requestJson("/api/transport/decision", {
+      method: "POST",
+      body: JSON.stringify({ status, decidedBy: user, reason })
+    });
+
+    msg.textContent = "Success!";
+  } catch (err) {
+    msg.textContent = err.message;
+  }
+}
+
+/* =========================================================
+   CHAT
+========================================================= */
+
+async function initChat() {
+  const form = document.getElementById("chatForm");
+  if (!form) return;
+
+  form.addEventListener("submit", addChatMessage);
+
+  renderChatMessages();
 }
 
 async function addChatMessage(event) {
-event.preventDefault();
+  event.preventDefault();
 
-const usernameInput = document.getElementById("chatUsername");
-const messageInput = document.getElementById("chatInput");
-if(!usernameInput || !messageInput) return;
+  const user = document.getElementById("chatUsername")?.value;
+  const text = document.getElementById("chatInput")?.value;
 
-const user = usernameInput.value.trim();
-const text = messageInput.value.trim();
+  if (!user || !text) return;
 
-if(!user || !text) return;
+  try {
+    await requestJson("/api/chat", {
+      method: "POST",
+      body: JSON.stringify({ user, text })
+    });
 
-localStorage.setItem("chatUsername", user);
-
-try {
-await requestJson("/api/chat", {
-method: "POST",
-body: JSON.stringify({ user, text })
-});
-
-messageInput.value = "";
-renderChatMessages();
-}
-catch(error) {
-alert(error.message);
-}
+    document.getElementById("chatInput").value = "";
+    renderChatMessages();
+  } catch (err) {
+    alert(err.message);
+  }
 }
 
-function initChat() {
-const usernameInput = document.getElementById("chatUsername");
-const form = document.getElementById("chatForm");
-if(!usernameInput || !form) return;
+async function renderChatMessages() {
+  const el = document.getElementById("chatMessages");
+  if (!el) return;
 
-const storedName = localStorage.getItem("chatUsername");
-if(storedName) {
-usernameInput.value = storedName;
+  try {
+    const data = await requestJson("/api/chat");
+
+    el.innerHTML = "";
+
+    (data.messages || []).forEach(m => {
+      const div = document.createElement("div");
+      div.className = "chat-message";
+
+      div.innerHTML = `
+        <div class="chat-meta">${escapeHtml(m.user)} • ${escapeHtml(m.created_at)}</div>
+        <div class="chat-text">${escapeHtml(m.text)}</div>
+      `;
+
+      el.appendChild(div);
+    });
+  } catch {
+    el.innerHTML = "<p>Chat unavailable.</p>";
+  }
 }
 
-form.addEventListener("submit", addChatMessage);
-renderChatMessages();
-}
+/* =========================================================
+   APP INIT (IMPORTANT)
+========================================================= */
 
-window.addEventListener("load", () => {
 renderUserBadge();
+renderNavAuthState();
+
 initAuthPage();
 displayLogs();
 displayStats();
 displayTransportStatus();
 displayTransportHistory();
 initChat();
-});
