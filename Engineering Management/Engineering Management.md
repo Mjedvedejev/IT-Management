@@ -5,6 +5,11 @@ We would apply this by helping teammates not only by providing answers, but also
 
 For example, when a teammate has a problem with Git branching, instead of just fixing the issue myself, I would explain how the problem occurred, how to avoid such conflicts in the future, and how to properly use rebasing. This helps the whole team improve, not just solve one problem.
 
+### Setting clear goals
+In our project we tried to set as clear goals as possible, we tried to predefine the entire project in advance so there are no suprises at the end.
+
+We did this by definig all features in jira so that as we develop the program we have a clear indicator of progress.
+
 ---
 
 ## Antipatterns and How We Would Avoid Them
