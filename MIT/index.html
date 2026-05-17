@@ -8,6 +8,14 @@
 <title>LagerSync Dashboard</title>
 <link rel="stylesheet" href="style.css">
 <script src="script.js" defer></script>
+<script>
+  // Register Service Worker for offline caching (optional)
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(() => {
+      // Service Worker registration failed; app still works offline
+    });
+  }
+</script>
 </head>
 
 <body>

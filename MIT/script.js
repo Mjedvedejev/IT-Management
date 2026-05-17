@@ -12,6 +12,10 @@
 ========================= */
 
 const API_BASE = "";
+// When true the frontend will use a client-side mock backend
+// backed by `localStorage` so the app can run as a static site
+// (e.g. GitHub Pages) without a server or database.
+const USE_LOCAL_BACKEND = true;
 
 /* =========================
    AUTH STORAGE HELPERS
@@ -71,6 +75,12 @@ async function requestJson(url, options = {}) {
     headers.Authorization = `Bearer ${token}`;
   }
 
+  // If running in static/local mode, route requests to the in-browser
+  // mock backend implemented below.
+  if (USE_LOCAL_BACKEND) {
+    return handleLocalRequest(url, { ...options, headers });
+  }
+
   const response = await fetch(`${API_BASE}${url}`, {
     ...options,
     headers
@@ -86,6 +96,155 @@ async function requestJson(url, options = {}) {
   }
 
   return data;
+}
+
+/* =========================================================
+   LOCALSTORAGE MOCK BACKEND (for static hosting)
+   Implements a tiny subset of the server API so the UI works
+   without Node/MySQL. Data is persisted in localStorage keys.
+========================================================= */
+
+function nowISO() { return new Date().toISOString(); }
+
+function loadLocal(key, def) {
+  const raw = localStorage.getItem(key);
+  if (!raw) return def;
+  try { return JSON.parse(raw); } catch { return def; }
+}
+
+function saveLocal(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function ensureLocalData() {
+  if (loadLocal("ls_users", null) === null) {
+    // basic sample users (passwords plain-text for prototype only)
+    saveLocal("ls_users", [
+      { id: 1, username: "owner1", password: "pass", role: "Private Forest Owner" },
+      { id: 2, username: "driver1", password: "pass", role: "Truck Driver" },
+      { id: 3, username: "sidg", password: "pass", role: "SIDG Representative" }
+    ]);
+  }
+
+  if (loadLocal("ls_logs", null) === null) {
+    saveLocal("ls_logs", []);
+  }
+
+  if (loadLocal("ls_chat", null) === null) {
+    saveLocal("ls_chat", []);
+  }
+
+  if (loadLocal("ls_transport", null) === null) {
+    saveLocal("ls_transport", []);
+  }
+}
+
+function makeId(prefix = "id") {
+  return `${prefix}_${Math.floor(Math.random()*1e9)}_${Date.now()}`;
+}
+
+async function handleLocalRequest(url, options = {}) {
+  ensureLocalData();
+
+  const method = (options.method || "GET").toUpperCase();
+  const path = url.split("?")[0];
+  const body = options.body ? JSON.parse(options.body) : null;
+  const currentUser = getCurrentUser();
+
+  // Auth
+  if (path === "/api/auth/login" && method === "POST") {
+    const users = loadLocal("ls_users", []);
+    const u = users.find(x => x.username === body.username && x.password === body.password);
+    if (!u) throw new Error("Invalid username or password (local)");
+    return { token: "local-token", user: { username: u.username, role: u.role } };
+  }
+
+  if (path === "/api/auth/register" && method === "POST") {
+    const users = loadLocal("ls_users", []);
+    if (users.find(x => x.username === body.username)) throw new Error("Username exists");
+    const id = users.length ? Math.max(...users.map(u=>u.id)) + 1 : 1;
+    users.push({ id, username: body.username, password: body.password, role: body.role });
+    saveLocal("ls_users", users);
+    return { ok: true };
+  }
+
+  if (path === "/api/auth/logout" && method === "POST") {
+    return { ok: true };
+  }
+
+  // Logs
+  if (path === "/api/logs" && method === "GET") {
+    const logs = loadLocal("ls_logs", []);
+    return { logs };
+  }
+
+  if (path === "/api/logs" && method === "POST") {
+    if (!currentUser) throw new Error("Not authenticated (local)");
+    const logs = loadLocal("ls_logs", []);
+    const newLog = {
+      id: makeId('log'),
+      owner: body.owner,
+      location: body.location,
+      volume: body.volume,
+      date: body.date,
+      status: "open",
+      accepted_driver: null,
+      created_at: nowISO()
+    };
+    logs.unshift(newLog);
+    saveLocal("ls_logs", logs);
+    return { ok: true, log: newLog };
+  }
+
+  // Chat
+  if (path === "/api/chat" && method === "GET") {
+    const messages = loadLocal("ls_chat", []);
+    return { messages };
+  }
+
+  if (path === "/api/chat" && method === "POST") {
+    const messages = loadLocal("ls_chat", []);
+    const username = (currentUser && currentUser.username) || (body && body.user) || "anonymous";
+    const msg = { id: makeId('msg'), user: username, text: body.text, created_at: nowISO() };
+    messages.push(msg);
+    saveLocal("ls_chat", messages);
+    return { ok: true, message: msg };
+  }
+
+  // Transport decisions / stats
+  if (path === "/api/transport/decision" && method === "POST") {
+    const transport = loadLocal("ls_transport", []);
+    const decidedBy = (body && body.decidedBy) || (currentUser && currentUser.username) || "unknown";
+    const rec = { id: makeId('dec'), status: body.status, decided_by: decidedBy, reason: body.reason || null, created_at: nowISO() };
+    transport.unshift(rec);
+    saveLocal("ls_transport", transport);
+    return { ok: true };
+  }
+
+  if (path === "/api/transport/latest" && method === "GET") {
+    const transport = loadLocal("ls_transport", []);
+    return { decision: transport[0] || null };
+  }
+
+  if (path === "/api/transport/history" && method === "GET") {
+    const transport = loadLocal("ls_transport", []);
+    return { decisions: transport };
+  }
+
+  if (path === "/api/stats" && method === "GET") {
+    const logs = loadLocal("ls_logs", []);
+    const transport = loadLocal("ls_transport", []);
+    const s = {
+      totalLogs: logs.length,
+      acceptedDecisions: transport.filter(t => t.status === 'accepted').length,
+      declinedDecisions: transport.filter(t => t.status === 'declined').length,
+      completedLogs: logs.filter(l => l.status === 'completed').length
+    };
+    return { stats: s };
+  }
+
+  // fallback
+  throw new Error(`No local handler for ${method} ${path}`);
 }
 
 /* =========================================================
@@ -116,6 +275,7 @@ function renderNavAuthState() {
     <a href="add.html">Add Logs</a>
     <a href="accept.html">Accept Transport</a>
     <a href="chat.html">Community Chat</a>
+    <a href="admin.html">Admin Panel</a>
   `;
 
   if (user) {

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo Admin - LagerSync</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-section { padding: 20px; border: 1px solid #ccc; border-radius: 8px; margin: 20px 0; }
+    .admin-section h2 { color: #d63031; }
+    .seed-data { background: #fff3cd; padding: 10px; border-radius: 4px; margin-top: 10px; }
+    .danger-btn { background: #d63031; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+    .danger-btn:hover { background: #c92a2a; }
+    .success-msg { color: #27ae60; font-weight: bold; margin-top: 10px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background: #f0f0f0; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <nav id="mainNav"></nav>
+
+  <div class="container">
+    <h1>Demo Admin Panel</h1>
+    <p>Manage LagerSync demo data stored in browser localStorage.</p>
+
+    <!-- Reset Section -->
+    <div class="admin-section">
+      <h2>Reset Demo Data</h2>
+      <p>Clear all data and reseed with sample users for a fresh demo.</p>
+      <button class="danger-btn" onclick="resetAllData()">Reset All Data</button>
+      <div id="resetMsg"></div>
+    </div>
+
+    <!-- Seed Users Section -->
+    <div class="admin-section">
+      <h2>Sample Users</h2>
+      <p>The following users are pre-seeded for quick testing:</p>
+      <div class="seed-data">
+        <table>
+          <tr>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Role</th>
+          </tr>
+          <tr>
+            <td><code>owner1</code></td>
+            <td><code>pass</code></td>
+            <td>Private Forest Owner</td>
+          </tr>
+          <tr>
+            <td><code>driver1</code></td>
+            <td><code>pass</code></td>
+            <td>Truck Driver</td>
+          </tr>
+          <tr>
+            <td><code>sidg</code></td>
+            <td><code>pass</code></td>
+            <td>SIDG Representative</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Data Explorer Section -->
+    <div class="admin-section">
+      <h2>Data Explorer</h2>
+      <p>View current localStorage contents:</p>
+      <button class="button" onclick="toggleDataView()">Toggle Data View</button>
+      <pre id="dataView" style="display:none; background:#f5f5f5; padding:10px; border-radius:4px; overflow-x:auto;"></pre>
+    </div>
+
+    <!-- Info Section -->
+    <div class="admin-section">
+      <h2>About Demo Mode</h2>
+      <p>
+        This LagerSync instance runs entirely in your browser using localStorage. 
+        No server or database required—perfect for GitHub Pages or local testing.
+      </p>
+      <ul>
+        <li><strong>Data storage:</strong> Browser localStorage (cleared when cache is cleared)</li>
+        <li><strong>Passwords:</strong> Plain-text only (never do this in production!)</li>
+        <li><strong>Real-time:</strong> No syncing across devices or browsers</li>
+        <li><strong>Notifications:</strong> No email or SMS in demo mode</li>
+      </ul>
+      <p style="color:#d63031; font-weight:bold;">
+        ⚠️ This is a prototype demo only. For production, use a real backend with MySQL, proper authentication, and security measures.
+      </p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    function resetAllData() {
+      const confirm_reset = confirm(
+        'This will clear ALL demo data and reseed with sample users.\n' +
+        'Are you sure?'
+      );
+      if (!confirm_reset) return;
+
+      localStorage.clear();
+
+      // Re-initialize with defaults
+      ensureLocalData();
+
+      const msg = document.getElementById('resetMsg');
+      msg.innerHTML = '<div class="success-msg">✓ Data reset successful!</div>';
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    }
+
+    function toggleDataView() {
+      const view = document.getElementById('dataView');
+      const isHidden = view.style.display === 'none';
+
+      if (isHidden) {
+        const data = {
+          users: loadLocal('ls_users', []),
+          logs: loadLocal('ls_logs', []),
+          chat: loadLocal('ls_chat', []),
+          transport: loadLocal('ls_transport', [])
+        };
+        view.textContent = JSON.stringify(data, null, 2);
+        view.style.display = 'block';
+      } else {
+        view.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
