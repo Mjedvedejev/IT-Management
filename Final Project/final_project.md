@@ -1,9 +1,7 @@
 # IT-Management Project LagerSync
 
 ## Introduction
-This document combines all previous project deliverables for **LagerSync** into one final report. The main idea of the project is to show a possible digital solution for improving timber transport coordination between private forest owners, SIDG, and transport providers.
-
-The report starts with the project charter, where the scope, goals, budget, timeline, and risks are defined. After that come the personas and user stories, which show the needs of the main user groups. Then the report presents hypothesis testing and usability testing to check both the project idea and the prototype itself. In the end, the implementation, stakeholder, and engineering management chapters connect the planning into one whole, followed by the final conclusions.
+This document combines all previous tasks for **LagerSync** into one final report. The main idea of the project is to create a digital solution for improving timber transport coordination between private forest owners, SIDG, and transport providers.
 
 # Project charter
 
@@ -14,7 +12,7 @@ LagerSync
 
 ## Project client
 * Client: SIDG (Slovenski Drzavni Gozdovi)
-* Project sponsor:ZGS Kocevje (Zavod za gozdove Kocevje)
+* Project sponsor: ZGS Kocevje (Zavod za Gozdove Slovenije - Kocevje)
 
 ## Document version and date of changes made
 |Version|Description|Date and time|
@@ -74,8 +72,8 @@ Visual studio profesional 500 * 3 -> 1500)
 >- 23 . December 2026 Final release
 
 ## Project manager and team, roles and employment
-* Tilen Tratnik (89221123) - Developer
-* Vid Brloznik (89221178) - (PR)
+* Tilen Tratnik (89221123) - Team lead, documentation, tasks
+* Vid Brloznik (89221178) - Presenter, designer
 * Florijan Peric (89231252) - Developer
 
 ## Risk assessment
@@ -97,7 +95,7 @@ The project charter shows that LagerSync is planned as a response to a real tran
 
 # Personas
 
-This chapter introduces the main types of users that LagerSync is designed for. By describing their goals, problems, and daily work, the project can better connect planning with realistic user needs.
+This chapter introduces the main types of users that LagerSync is designed for. By describing their goals, problems, and daily work, we can determine which features have priority.
 
 ## Jozko Podlozko
 **The Efficient Transporter**
@@ -552,7 +550,7 @@ As a shipper, I want a reliable way to contact the private land owners, since th
 As a shipper, I want to see a schedule of all the transports I have organized daily, so that I know where to be and when.
 
 ### Chapter summary
-The user stories turn the personas into specific feature expectations and give the project a clearer direction. With these needs defined, the next step is to test whether the assumptions behind them are supported by real users.
+The user stories turn the personas into specific feature expectations and give the project a clearer direction. With these needs defined, the next step is to test whether these assumptions are supported by real users.
 
 # Hypothesis Testing
 
@@ -724,53 +722,6 @@ With improvements, LagerSync could be a practical solution for real-world use.
 ### Chapter summary
 The usability results show that the idea is promising, but the interface still needs improvements before real deployment. These findings help guide the next chapter, which outlines how the full solution should be implemented.
 
-# Prototype Screenshots
-
-This chapter is intended to hold screenshots of the LagerSync prototype. ~ FLORJAN add images
-
-## Login Page
-```html
-<figure style="text-align:center; margin: 24px 0;">
-  <img src="images/login-page.png" alt="LagerSync login page" style="max-width:100%; border:1px solid #ccc; border-radius:8px;" />
-  <figcaption>Figure 1: LagerSync login page.</figcaption>
-</figure>
-```
-
-## Dashboard Page
-```html
-<figure style="text-align:center; margin: 24px 0;">
-  <img src="images/dashboard-page.jpg" alt="LagerSync dashboard page" style="max-width:100%; border:1px solid #ccc; border-radius:8px;" />
-  <figcaption>Figure 2: Dashboard with available transport loads.</figcaption>
-</figure>
-```
-
-## Add Transport Request Page
-```html
-<figure style="text-align:center; margin: 24px 0;">
-  <img src="images/add-request-page.png" alt="LagerSync add transport request page" style="max-width:100%; border:1px solid #ccc; border-radius:8px;" />
-  <figcaption>Figure 3: Form for adding a new transport request.</figcaption>
-</figure>
-```
-
-## Filtering Example
-```html
-<figure style="text-align:center; margin: 24px 0;">
-  <img src="images/filtering-example.png" alt="LagerSync filtering interface" style="max-width:100%; border:1px solid #ccc; border-radius:8px;" />
-  <figcaption>Figure 4: Example of filtering available timber loads.</figcaption>
-</figure>
-```
-
-## Accept Transport Page
-```html
-<figure style="text-align:center; margin: 24px 0;">
-  <img src="images/accept-transport-page.png" alt="LagerSync accept transport page" style="max-width:100%; border:1px solid #ccc; border-radius:8px;" />
-  <figcaption>Figure 5: Accepting a transport request.</figcaption>
-</figure>
-```
-
-### Chapter summary
-Adding prototype screenshots helps connect the written parts of the report with the visual side of the application. After showing how the prototype looks, the report can move into the planned technical implementation of the final system.
-
 # LagerSync - Planned Implementation of the Solution
 
 This chapter explains how the insights from the earlier research and testing can be turned into a practical software solution. It outlines the expected features, technologies, pages, and data structure of the application.
@@ -843,6 +794,8 @@ Administrators and SIDG will be able to:
 | messages.html | User communication |
 | login.html | User login |
 | register.html | User registration |
+| chat.html | Communication between users |
+| admin.html | Admin tools |
 
 ---
 
@@ -864,6 +817,7 @@ Administrators and SIDG will be able to:
 - Figma
 - Canva
 - Draw.io
+- Inkscape
 
 ### Development Tools
 - Visual Studio Code
@@ -906,9 +860,9 @@ Stores:
 
 | Team Member | Role |
 |------------|------|
-| Tilen Tratnik | Developer |
+| Tilen Tratnik | Team lead, Documentation, Tasks |
 | Florijan Peric | Developer |
-| Vid Brloznik | HR / Presenter / UI |
+| Vid Brloznik | Presenter / UI |
 
 ### Chapter summary
 The planned implementation shows that LagerSync is not only a concept, but also a technically realistic application with a clear feature set and development direction. Before concluding the project, it is still important to consider the people and organizations that influence its success.
@@ -930,6 +884,7 @@ The stakeholder analysis shows that LagerSync must succeed not only as software,
 # Engineering Management
 
 This chapter reflects on how the team should work during the project. Good planning and a strong idea are not enough on their own, so engineering management helps make sure that the team can deliver the solution effectively.
+The outlined patterns reflect our previous problems and how we will avoid them in the future.
 
 ## Positive Pattern
 
@@ -968,6 +923,6 @@ LagerSync addresses a clear and realistic problem in timber transport organizati
 
 The personas and user stories show that the system has to support different types of users with different expectations, while the interviews confirm that there is real interest in a solution that simplifies transport organization. The usability testing then shows that the concept works, but that the interface still needs improvements in areas such as filtering, guidance, and clarity.
 
-The implementation chapter shows that LagerSync can be developed as a realistic web application with a clear technology stack, defined features, and structured database design. At the same time, the stakeholder and engineering management chapters show that project success also depends on communication, trust, and responsiveness toward both users and team members.
+The implementation chapter shows that LagerSync can be developed as a realistic web application with defined features, and structured database design. At the same time, the stakeholder and engineering management chapters show that project success also depends on communication, trust, and responsiveness toward both users and team members.
 
-Overall, LagerSync has strong potential to become a useful digital platform for timber transport coordination. If the identified usability improvements are addressed and the project stays aligned with stakeholder needs, it could provide both operational and organizational benefits in real-world forestry logistics.
+Overall, LagerSync has strong potential to become a useful digital platform for timber transport coordination. If the project stays aligned with the user needs, it could provide both operational and organizational benefits in real-world forestry logistics.
