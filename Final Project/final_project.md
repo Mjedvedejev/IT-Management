@@ -1,7 +1,7 @@
 # IT-Management Project LagerSync
 
 ## Introduction
-This document combines all previous tasks for **LagerSync** into one final report. The main idea of the project is to create a digital solution for improving timber transport coordination between private forest owners, SIDG, and transport providers.
+The main idea of the project is to create a digital solution for improving timber transport coordination between private forest owners, SIDG, and transport providers.
 
 # Project charter
 
@@ -824,7 +824,7 @@ Administrators and SIDG will be able to:
 - Visual Studio Code
 - GitHub
 - LocalStorage (for prototype testing)
-- Jira
+- Jira ~ This was later droped because it was overcomplicating development
 
 ---
 
@@ -857,13 +857,11 @@ Stores:
 
 ---
 
-## Team Roles
-
-| Team Member | Role |
-|------------|------|
-| Tilen Tratnik | Team lead, Documentation, Tasks |
-| Florijan Peric | Developer |
-| Vid Brloznik | Presenter / UI |
+## Project manager and team, roles and employment
+* Tilen Tratnik (89221123) - Team lead, documentation, tasks(33%->Micro guided us, made all of the documentation and made a list of tasks for each person)
+* Vid Brloznik (89221178) - Presenter, designer,tasks(33% -> Was the presenter of all of our tasks and designed the web page and helped out with Admin Panel coding)
+* Florijan Peric (89231252) - Developer,tasks(33% did the prototype and all of the programming, helped with the documentation)
+* All of the Homeworks/Tasks were done together with equal (33%/33%/33% split)
 
 ### Chapter summary
 The planned implementation shows that LagerSync is not only a concept, but also a technically realistic application with a clear feature set and development direction. Before concluding the project, it is still important to consider the people and organizations that influence its success.
