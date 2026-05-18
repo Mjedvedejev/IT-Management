@@ -72,9 +72,10 @@ Visual studio profesional 500 * 3 -> 1500)
 >- 23 . December 2026 Final release
 
 ## Project manager and team, roles and employment
-* Tilen Tratnik (89221123) - Team lead, documentation, tasks
-* Vid Brloznik (89221178) - Presenter, designer
-* Florijan Peric (89231252) - Developer
+* Tilen Tratnik (89221123) - Team lead, documentation, tasks(33%->Micro guided us, made all of the documentation and made a list of tasks for each person)
+* Vid Brloznik (89221178) - Presenter, designer,tasks(33% -> Was the presenter of all of our tasks and designed the web page and helped out with Admin Panel coding)
+* Florijan Peric (89231252) - Developer,tasks(33% did the prototype and all of the programming, helped with the documentation)
+* All of the Homeworks/Tasks were done together with equal (33%/33%/33% split)
 
 ## Risk assessment
 >- Time limitations (8)
